@@ -1,0 +1,44 @@
+Rogue Username: darklord
+Justification: The login attempt was observed on 22 September 2020 according to the IDS logs. If we keep following the same logs for alert level 5 and above, we see that on the same day user with name "darklord" was added to the system and some information was updated for this user:
+
+From the Logs:
+
+Level:
+8 - Information from the user was changed
+Rule Id:
+5904
+Location:
+ubuntu-VirtualBox->/var/log/auth.log
+Sep 22 10:54:36 ubuntu-VirtualBox chfn[3045]: changed user 'darklord' information
+
+Level:
+8 - New user added to the system
+Rule Id:
+5902
+Location:
+ubuntu-VirtualBox->/var/log/auth.log
+Sep 22 10:54:28 ubuntu-VirtualBox useradd[2971]: new user: name=darklord, UID=1001, GID=1001, home=/home/darklord, shell=/bin/bash
+
+#####################################################################################
+
+Malicious Process: remotesec
+Justification:
+
+1. From the process info it is clear that the process is executing from the temp directory, which is a non standard directory for process configuration/executables. The process name is suspicious towards some remote connection/activity.
+root      1028  0.0  0.0   2592   316 ?        SN   05:00   0:00 /tmp/remotesec -k -l 56565
+
+2. Also it is observable that the content of this script is not much human friendly, but from whatever is readable, it can be deduced that the script is performing something related to Socket Connection, Remote Connection, Authentication and Authorization which makes it eligible for red flagging.
+
+
+3. When we continue observing the logs, we see that "crontab" was updated.
+
+4. Taking a look at the crontab we see that at reboot /etc/darklord.sh is called
+
+5. Checking the content of /etc/darklord.sh , it can be seen that the initialization of the malicious process is carried out in this script. Thus it is the culprit.
+
+#####################################################################################
+
+Non-Standard Port: 56565
+Justification:
+Using netstat, it has been found that the above suspicious process is running on 56565 port and is listening to all IPs
+tcp        0      0 *:56565                 *:*                     LISTEN      1028/remotesec

@@ -1,0 +1,5 @@
+# Block all packets from attacking IP Address
+iptables -A INPUT -s 192.168.56.1 -j DROP
+
+# Block access to only SSH Port
+iptables -A INPUT -s 192.168.56.1 -p tcp --destination-port 22 -j DROP

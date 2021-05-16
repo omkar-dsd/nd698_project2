@@ -1,0 +1,28 @@
+Create apache-user:
+
+sudo adduser apache-user
+
+Create apache-group:
+
+sudo groupadd apache-group
+
+Add apache-user to apache-group:
+
+sudo usermod -aG apache-group apache-user
+
+Changes Required to run apache as new user and group:
+
+1. Update the following variables in /etc/apache2/envvars
+
+    export APACHE_RUN_USER=apache-user
+    export APACHE_RUN_GROUP=apache-group
+
+2. Permission / Ownership changes for the corresponding directories:
+
+    sudo chown -R apache-user:apache-group /var/www/html/*
+    sudo chown -R apache-user:apache-group /var/lock/apache2
+    sudo chown -R apache-user:apache-group /var/log/apache2
+
+Reboot after the config changes
+
+We can additionally restrict the user privileges by making allowances/denials in sudoers file and also chroot JAIL can be used to enhance the isolation and security.

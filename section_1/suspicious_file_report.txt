@@ -1,0 +1,10 @@
+Suspicious file Information:
+
+File Name: SSH-One
+File Permission: 755
+
+Suspicious Endpoints: 
+hfs_m=http://darkl0rd.com:7758/SSH-T
+hfs_s=http://darkl0rd.com:7758/SSH-One
+
+The script is downloading other scripts from the above domain and making them executable.

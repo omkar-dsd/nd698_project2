@@ -1,0 +1,8 @@
+Apache Server Version Info:
+Server version: Apache/2.4.7 (Ubuntu)
+Server built:   Apr  3 2019 18:04:59
+
+Configuration changes required to hide version and OS info in /etc/apache2/apache2.conf:
+
+ServerTokens Prod
+ServerSignature Off
